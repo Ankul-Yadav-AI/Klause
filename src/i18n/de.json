@@ -1,0 +1,24 @@
+{
+  "SUCCESS": "Erfolg",
+  "LOGIN_SUCCESS": "Login erfolgreich",
+  "INVALID_CREDENTIALS": "Ungültige E-Mail oder Passwort",
+  "SERVER_ERROR": "Interner Serverfehler",
+
+  "INVALID_ACCESS_TOKEN": "Ungültiges Zugriffstoken",
+  "USER_NOT_FOUND": "Benutzer nicht gefunden",
+  "USER_IS_DEACTIVATED": "Benutzer ist deaktiviert. Bitte kontaktieren Sie das Support-Team.",
+  "TOKEN_EXPIRED": "Token abgelaufen",
+  "INVALID_TOKEN": "Ungültiges Token",
+
+  "INVALID_FILE_UPLOADED_ALLOWED_TYPES": "Ungültige Datei hochgeladen. Erlaubte Typen:",
+
+  "VALIDATION_ERROR": "Validierungsfehler",
+  "EMAIL_MUST_BE_STRING": "E-Mail muss eine Zeichenkette sein",
+  "EMAIL_IS_REQUIRED": "E-Mail ist erforderlich",
+  "EMAIL_MUST_BE_VALID": "E-Mail muss gültig sein",
+  "EMAIL_FORMAT_IS_INVALID_IT_SHOULD_NOT_START_WITH_SPECIAL_CHARACTERS":
+    "E-Mail-Format ist ungültig. Es darf nicht mit Sonderzeichen beginnen",
+
+  "FAILED_TO_SEND_OTP_TO_EMAIL": "OTP konnte nicht an die E-Mail gesendet werden",
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP erfolgreich an die E-Mail gesendet"
+}

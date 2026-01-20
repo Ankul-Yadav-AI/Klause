@@ -1,0 +1,24 @@
+{
+  "SUCCESS": "Successo",
+  "LOGIN_SUCCESS": "Accesso riuscito",
+  "INVALID_CREDENTIALS": "Email o password non validi",
+  "SERVER_ERROR": "Errore interno del server",
+
+  "INVALID_ACCESS_TOKEN": "Token di accesso non valido",
+  "USER_NOT_FOUND": "Utente non trovato",
+  "USER_IS_DEACTIVATED": "L'utente è disattivato. Contatta il team di supporto.",
+  "TOKEN_EXPIRED": "Token scaduto",
+  "INVALID_TOKEN": "Token non valido",
+
+  "INVALID_FILE_UPLOADED_ALLOWED_TYPES": "File caricato non valido. Tipi consentiti:",
+
+  "VALIDATION_ERROR": "Errore di validazione",
+  "EMAIL_MUST_BE_STRING": "L'email deve essere una stringa",
+  "EMAIL_IS_REQUIRED": "L'email è obbligatoria",
+  "EMAIL_MUST_BE_VALID": "L'email deve essere valida",
+  "EMAIL_FORMAT_IS_INVALID_IT_SHOULD_NOT_START_WITH_SPECIAL_CHARACTERS":
+    "Il formato dell'email non è valido. Non deve iniziare con caratteri speciali",
+
+  "FAILED_TO_SEND_OTP_TO_EMAIL": "Invio OTP all'email non riuscito",
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP inviato all'email con successo"
+}

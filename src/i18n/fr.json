@@ -1,0 +1,24 @@
+{
+  "SUCCESS": "Succès",
+  "LOGIN_SUCCESS": "Connexion réussie",
+  "INVALID_CREDENTIALS": "E-mail ou mot de passe invalide",
+  "SERVER_ERROR": "Erreur interne du serveur",
+
+  "INVALID_ACCESS_TOKEN": "Jeton d'accès invalide",
+  "USER_NOT_FOUND": "Utilisateur introuvable",
+  "USER_IS_DEACTIVATED": "L'utilisateur est désactivé. Veuillez contacter l'équipe de support.",
+  "TOKEN_EXPIRED": "Le jeton a expiré",
+  "INVALID_TOKEN": "Jeton invalide",
+
+  "INVALID_FILE_UPLOADED_ALLOWED_TYPES": "Fichier invalide téléchargé. Types autorisés :",
+
+  "VALIDATION_ERROR": "Erreur de validation",
+  "EMAIL_MUST_BE_STRING": "L'e-mail doit être une chaîne",
+  "EMAIL_IS_REQUIRED": "L'e-mail est requis",
+  "EMAIL_MUST_BE_VALID": "L'e-mail doit être valide",
+  "EMAIL_FORMAT_IS_INVALID_IT_SHOULD_NOT_START_WITH_SPECIAL_CHARACTERS":
+    "Le format de l'e-mail est invalide. Il ne doit pas commencer par des caractères spéciaux",
+
+  "FAILED_TO_SEND_OTP_TO_EMAIL": "Échec de l'envoi de l'OTP à l'e-mail",
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP envoyé avec succès à l'e-mail"
+}

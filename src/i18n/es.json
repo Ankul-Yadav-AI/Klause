@@ -1,0 +1,24 @@
+{
+  "SUCCESS": "Éxito",
+  "LOGIN_SUCCESS": "Inicio de sesión exitoso",
+  "INVALID_CREDENTIALS": "Correo electrónico o contraseña inválidos",
+  "SERVER_ERROR": "Error interno del servidor",
+
+  "INVALID_ACCESS_TOKEN": "Token de acceso inválido",
+  "USER_NOT_FOUND": "Usuario no encontrado",
+  "USER_IS_DEACTIVATED": "El usuario está desactivado. Por favor contacte al equipo de soporte.",
+  "TOKEN_EXPIRED": "El token ha expirado",
+  "INVALID_TOKEN": "Token inválido",
+
+  "INVALID_FILE_UPLOADED_ALLOWED_TYPES": "Archivo inválido cargado. Tipos permitidos:",
+
+  "VALIDATION_ERROR": "Error de validación",
+  "EMAIL_MUST_BE_STRING": "El correo electrónico debe ser una cadena",
+  "EMAIL_IS_REQUIRED": "El correo electrónico es obligatorio",
+  "EMAIL_MUST_BE_VALID": "El correo electrónico debe ser válido",
+  "EMAIL_FORMAT_IS_INVALID_IT_SHOULD_NOT_START_WITH_SPECIAL_CHARACTERS":
+    "El formato del correo electrónico es inválido. No debe comenzar con caracteres especiales",
+
+  "FAILED_TO_SEND_OTP_TO_EMAIL": "No se pudo enviar el OTP al correo electrónico",
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP enviado al correo electrónico con éxito"
+}

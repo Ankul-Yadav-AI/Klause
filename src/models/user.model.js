@@ -1,0 +1,86 @@
+import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    username: {
+      type: String,
+      unique: true,
+      sparse: true, 
+      trim: true,
+    },
+
+    password: {
+      type: String, 
+    },
+
+    firstName: { type: String, trim: true },
+    lastName: { type: String, trim: true },
+    gender: { type: String, enum: ["male", "female", "other"] },
+    country: { type: String, trim: true },
+
+    companyName: { type: String, trim: true },
+    companyDescription: { type: String, trim: true },
+
+    contactData: {
+      phone: { type: String, trim: true },
+      alternativePhone: { type: String, trim: true },
+    },
+
+    VATId: { type: String, trim: true },
+    countryCode: { type: String, trim: true },
+    nickName: { type: String, trim: true },
+
+    registrationStep: {
+      type: Number,
+      default: 1,
+    },
+
+    isRegistered: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
+
+
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  if (!this.password) return;
+
+  this.password = await bcrypt.hash(this.password, 10);
+});
+
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+  if (!this.password) return false;
+  return bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
+    { _id: this._id, email: this.email },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+  );
+};
+
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
+    { _id: this._id },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
+  );
+};
+
+export const User = mongoose.model("User", userSchema);

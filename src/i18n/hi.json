@@ -1,0 +1,24 @@
+{
+  "SUCCESS": "सफल",
+  "LOGIN_SUCCESS": "लॉगिन सफल रहा",
+  "INVALID_CREDENTIALS": "ईमेल या पासवर्ड गलत है",
+  "SERVER_ERROR": "आंतरिक सर्वर त्रुटि",
+
+  "INVALID_ACCESS_TOKEN": "अमान्य एक्सेस टोकन",
+  "USER_NOT_FOUND": "उपयोगकर्ता नहीं मिला",
+  "USER_IS_DEACTIVATED": "उपयोगकर्ता निष्क्रिय है। कृपया सहायता टीम से संपर्क करें।",
+  "TOKEN_EXPIRED": "टोकन की समय सीमा समाप्त हो गई है",
+  "INVALID_TOKEN": "अमान्य टोकन",
+
+  "INVALID_FILE_UPLOADED_ALLOWED_TYPES": "अमान्य फ़ाइल अपलोड की गई। अनुमत प्रकार:",
+
+  "VALIDATION_ERROR": "मान्यता त्रुटि",
+  "EMAIL_MUST_BE_STRING": "ईमेल एक स्ट्रिंग होना चाहिए",
+  "EMAIL_IS_REQUIRED": "ईमेल आवश्यक है",
+  "EMAIL_MUST_BE_VALID": "ईमेल मान्य होना चाहिए",
+  "EMAIL_FORMAT_IS_INVALID_IT_SHOULD_NOT_START_WITH_SPECIAL_CHARACTERS":
+    "ईमेल प्रारूप अमान्य है। यह विशेष अक्षरों से शुरू नहीं होना चाहिए",
+
+  "FAILED_TO_SEND_OTP_TO_EMAIL": "ईमेल पर OTP भेजने में विफल",
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP सफलतापूर्वक ईमेल पर भेजा गया"
+}
