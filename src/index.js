@@ -5,12 +5,15 @@ import routes from "./routes/index.js";
 import connectDB from "./config/dbConfig.js";
 import cookieParser from "cookie-parser";
 import { languageMiddleware } from "./middlewares/language.middleware.js";
+import { loadConfig } from "./config/loadConfig.js";
+
+const secret = await loadConfig();
 
 const app = express();
 
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
+    origin: secret.CORS_ORIGIN || "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -23,9 +26,9 @@ app.use(cookieParser());
 
 app.use("/api", languageMiddleware, routes);
 dotenv.config();
-const PORT = process.env.PORT || 5000;
+const PORT = secret.PORT || 5000;
 const MONGODB_URI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/KlauseUserDB";
+  secret.MONGODB_URI || "mongodb://localhost:27017/KlauseUserDB";
 
 await connectDB();
 

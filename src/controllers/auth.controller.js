@@ -55,7 +55,6 @@ const signup = asyncHandler(async (req, res) => {
     );
   }
   const otp = await generateOTP(6);
-  console.log("Generated OTP:", otp);
 
   const emailTemplate = emailTamplates.signupOTP(otp);
 
@@ -76,7 +75,7 @@ const signup = asyncHandler(async (req, res) => {
   });
   if (existingUser) {
     existingUser.otp = otp;
-    existingUser.otpExpiry = Date.now() + 10 * 60 * 1000;
+    existingUser.otpExpire = Date.now() + 10 * 60 * 1000;
     existingUser.isRegistered = false;
     existingUser.updatedAt = Date.now();
     existingUser.registrationStep = 1;
@@ -85,16 +84,103 @@ const signup = asyncHandler(async (req, res) => {
     const newUser = new User({
       email: userEmail,
       otp: otp,
-      otpExpiry: Date.now() + 10 * 60 * 1000,
+      otpExpire: Date.now() + 10 * 60 * 1000,
       isRegistered: false,
       registrationStep: 1,
     });
     await newUser.save({ validateBeforeSave: false });
   }
 
-  return res
-    .status(200)
-    .json(new ApiResponse(200, "OTP_SENT_TO_EMAIL_SUCCESSFULLY", req.lang , { email: userEmail, nextStep: "VERIFY_OTP" }));
+  return res.status(200).json(
+    new ApiResponse(200, "OTP_SENT_TO_EMAIL_SUCCESSFULLY", req.lang, {
+      email: userEmail,
+      nextStep: "VERIFY_OTP",
+    })
+  );
 });
 
-export { signup };
+const verifyOtp = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+  if (!email || !otp) {
+    throw new ApiError(400, EMAIL_AND_OTP_ARE_REQUIRED, req.lang);
+  }
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    throw new ApiError(404, "USER_NOT_FOUND", req.lang);
+  }
+
+  if (user.otp != otp) {
+    throw new ApiError(400, "INVALID_OTP", req.lang);
+  }
+  //  check if otp is expired
+
+  if (new Date() > user.otpExpire) {
+    throw new ApiError(400, "OTP_EXPIRED", req.lang);
+  }
+
+  user.otp = null;
+  user.otpExpire = null;
+  user.isEmailVerified = true;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "OTP_VERIFIED_SUCCESSFULLY", req.lang, user));
+});
+
+const resendOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  if (!email) {
+    throw new ApiError(400, "EMAIL_IS_REQUIRED", req.lang);
+  }
+  let user = await User.findOne({ email: email });
+
+  if (!user) {
+    throw new ApiError(404, "USER_NOT_FOUND", req.lang);
+  }
+
+  const otp = await generateOTP(6);
+  user.otp = otp;
+  user.otpExpire = new Date(Date.now() + 10 * 60 * 1000);
+  await user.save();
+  const emailTemplate = emailTamplates.signupOTP(otp);
+
+  const emailResponse = await sendEmail({
+    email: email,
+    subject: emailTemplate.subject,
+    body: emailTemplate.body,
+  });
+  if (!emailResponse.success) {
+    throw new ApiError(500, "FAILED_TO_SEND_OTP_TO_EMAIL", req.lang);
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "OTP_SENT_TO_EMAIL_SUCCESSFULLY", req.lang, {
+        email,
+      })
+    );
+});
+
+const joinAs = asyncHandler(async (req, res) => {
+  const { role } = req.body;
+  const user = req.user;
+  if (!role) {
+    throw new ApiError(400, "ROLE_IS_REQUIRED", req.lang);
+  }
+  if(!["owner","manager","guest"].includes(role)){
+    throw new ApiError(400, "INVALID_ROLE", req.lang);
+  }
+
+  user.role = role;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "ROLE_JOINED_SUCCESSFULLY", req.lang, user));
+});
+
+export { signup, verifyOtp, resendOTP , joinAs };

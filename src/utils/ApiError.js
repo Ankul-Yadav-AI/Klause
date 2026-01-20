@@ -9,20 +9,13 @@ class ApiError extends Error {
     stack = ""
   ) {
     super(messageKey);
-    console.log("Creating ApiError:", {
-      statusCode,
-      messageKey,
-      lang,
-      error,
-      stack,
-    });
 
     this.statusCode = statusCode;
     this.data = null;
     this.message = t(lang, messageKey);
     this.success = false;
     this.errors = error;
-    console.log("ApiError created with message:", this.message);
+    
     if (stack) {
       this.stack = stack;
     } else {

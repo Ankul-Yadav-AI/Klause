@@ -23,5 +23,15 @@
 
 
   "FAILED_TO_SEND_OTP_TO_EMAIL": "Failed to send OTP to Email",
-  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP sent to email successfully"
+  "OTP_SENT_TO_EMAIL_SUCCESSFULLY": "OTP sent to email successfully",
+
+  "EMAIL_AND_OTP_ARE_REQUIRED": "Email and OTP are required",
+  "INVALID_OTP": "Invalid OTP",
+  "OTP_EXPIRED": "OTP Expired",
+  "OTP_VERIFIED_SUCCESSFULLY": "OTP verified successfully",
+
+
+  "ROLE_IS_REQUIRED": "Role is required",
+  "INVALID_ROLE": "Invalid Role",
+  "ROLE_JOINED_SUCCESSFULLY": "Role joined successfully"
 }

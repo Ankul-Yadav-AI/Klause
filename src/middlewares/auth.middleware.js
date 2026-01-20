@@ -6,7 +6,7 @@ import { loadConfig } from "../config/loadConfig.js";
 
 const secret = await loadConfig();
 
-export const verifyJWT = asyncHandler(async (req, res, next) => {
+export const authenticatedUser = asyncHandler(async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
 

@@ -3,10 +3,8 @@ import { t } from "../i18n/index.js";
 
 const asyncHandler = (fn) => async (req, res, next) => {
   try {
-    console.log("Executing asyncHandler for function:", fn.name);
     await fn(req, res, next);
   } catch (error) {
-    console.log("Error caught in asyncHandler:", error);
     // file cleanup (tumhara existing code)
     if (req.files) {
       const keyNames = Object.keys(req.files)[0];
