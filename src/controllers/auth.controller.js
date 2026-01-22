@@ -260,10 +260,31 @@ const saveOwnerDetails = asyncHandler(async (req, res) => {
     CountryCode,
   } = req.body;
 
-  const user  = req.user;
-  
+  const user = req.user;
 
+  user.companyName = companyName;
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.gender = gender;
+  user.country = country;
+  user.descriptionOfCompany = descriptionOfCompany;
+  user.phone = phone;
+  user.alternatePhone = alternatePhone;
+  user.mainAddressStreet = mainAddressStreet;
+  user.mainAddressNo = mainAddressNo;
+  user.mainAddressPostCode = mainAddressPostCode;
+  user.mainAddressCity = mainAddressCity;
+  user.billingAddressStreet = billingAddressStreet;
+  user.billingAddressNo = billingAddressNo;
+  user.billingAddressPostCode = billingAddressPostCode;
+  user.billingAddressCity = billingAddressCity;
+  user.VATId = VATId;
+  user.CountryCode = CountryCode;
+  user.save();
 
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "USER_DETAILS_SAVED_SUCCESSFULLY", req.lang, user));
 });
 
 export {

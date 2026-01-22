@@ -59,6 +59,8 @@
   "PHONE_NUMBER_IS_INVALID":"Please Enter a Valid Phone Number",
   "COUNTRY_CODE_MUST_BE_ISO_2":"Country Code muse be ISO Format",
 
+  "USER_DETAILS_SAVED_SUCCESSFULLY":"User details saved successfully.",
+
   "FIELD_REQUIRED": "{{field}} is required",
   "FIELD_MUST_BE_STRING": "{{field}} must be a string",
   "FIELD_MIN_LENGTH": "{{field}} must be at least {{min}} characters",
