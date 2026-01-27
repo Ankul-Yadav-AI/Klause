@@ -47,6 +47,12 @@ const loadConfig = async () => {
             EMAIL_USER: secrets.EMAIL_USER,
             EMAIL_PASS: secrets.EMAIL_PASS,
 
+
+            REDIS_HOST: secrets.REDIS_HOST || "localhost",
+            REDIS_PORT: secrets.REDIS_PORT || "6379",
+            REDIS_USERNAME: secrets.REDIS_USERNAME || "",
+            REDIS_PASSWORD: secrets.REDIS_PASSWORD || "",
+
             // // Stripe configuration
             // STRIPE_PUBLIC_KEY: secrets.STRIPE_PUBLIC_KEY,
             // STRIPE_SECRET_KEY: secrets.STRIPE_SECRET_KEY,
