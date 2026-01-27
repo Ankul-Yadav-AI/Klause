@@ -8,6 +8,7 @@ import { sendEmail } from "../../utils/sendEmail.js";
 import { generateOTP } from "../../utils/helperFunctions.js";
 import { emailTamplates } from "../../utils/emailTemplate.js";
 import { checkUsernameAvailability } from "../../services/userAvailability.service.js";
+import mongoose from "mongoose";
 
 const secret = await loadConfig();
 
@@ -22,7 +23,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
   } catch (error) {
     throw new ApiError(
       500,
-      "Something went wrong while generating refresh and access token",
+      "SOMETHING_WENT_WRONG_WHILE_GENERATING_REFRESH_AND_ACCESS_TOKEN",
       req.lang
     );
   }
@@ -502,6 +503,96 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     );
 });
 
+const changePassword = asyncHandler(async (req, res) => {
+  const { oldPassword, newPassword } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    throw new ApiError(404, "USER_NOT_FOUND", req.lang);
+  }
+
+  const isOldPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
+  if (!isOldPasswordCorrect) {
+    throw new ApiError(400, "INVALID_PASSWORD", req.lang);
+  }
+
+  // prevent same password reuse
+  const isSamePassword = await user.isPasswordCorrect(newPassword);
+  if (isSamePassword) {
+    throw new ApiError(
+      400,
+      "NEW_PASSWORD_CANNOT_BE_SAME_AS_OLD_PASSWORD",
+      req.lang
+    );
+  }
+
+  user.password = newPassword;
+  user.refreshToken = null;
+  await user.save();
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "PASSWORD_UPDATED_SUCCESSFULLY", req.lang));
+});
+
+const getProfile = asyncHandler(async (req, res) => {
+  const userId = req.user?._id;
+
+  if (!userId) {
+    throw new ApiError(401, "INVALID_ACCESS_TOKEN", req.lang);
+  }
+
+  const aggregation = [];
+
+  aggregation.push({
+    $match: {
+      _id: new mongoose.Types.ObjectId(userId),
+      isDeleted: false,
+    },
+  });
+
+  aggregation.push({
+    $project: {
+      _id: 1,
+      email: 1,
+      isEmailVerified: 1,
+      role: 1,
+      username: 1,
+      CountryCode: 1,
+      VATId: 1,
+      alternatePhone: 1,
+      billingAddressCity: 1,
+      billingAddressNo: 1,
+      billingAddressPostCode: 1,
+      billingAddressStreet: 1,
+      companyDescription:1,
+      companyName: 1,
+      country: 1,
+      firstName: 1,
+      gender: 1,
+      lastName:1,
+      mainAddressCity: 1,
+      mainAddressNo: 1,
+      mainAddressPostCode: 1,
+      mainAddressStreet: 1,
+      phone: 1,
+      nickName: 1,
+    },
+  });
+
+  const user = await User.aggregate(aggregation);
+
+  if (!user || user.length === 0) {
+    throw new ApiError(404, "USER_NOT_FOUND", req.lang);
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, "SUCCESS", req.lang, user[0]));
+});
+
 export {
   signup,
   verifyOtp,
@@ -516,4 +607,6 @@ export {
   forgotPassword,
   setPassword,
   refreshAccessToken,
+  changePassword,
+  getProfile,
 };

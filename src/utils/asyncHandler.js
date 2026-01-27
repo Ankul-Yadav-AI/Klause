@@ -5,6 +5,7 @@ const asyncHandler = (fn) => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (error) {
+    console.log("error",error);
     // file cleanup (tumhara existing code)
     if (req.files) {
       const keyNames = Object.keys(req.files)[0];

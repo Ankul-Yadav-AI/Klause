@@ -13,6 +13,8 @@ import {
   forgotPassword,
   setPassword,
   refreshAccessToken,
+  changePassword,
+  getProfile,
 } from "../../controllers/users/auth.controller.js";
 import { validateRequest } from "../../middlewares/validation.middleware.js";
 import {
@@ -22,6 +24,7 @@ import {
   userDetailsSchema,
   userValidationSchema,
   loginValidationSchema,
+  changePasswordValidationSchema,
 } from "../../validators/userValidator.js";
 import { authenticatedUser } from "../../middlewares/auth.middleware.js";
 // import { checkVersion } from "../middlewares/checkVersion.js";
@@ -73,5 +76,12 @@ router.post(
   setPassword
 );
 router.post("/refresh-token", refreshAccessToken);
+router.post(
+  "/change-password",
+  authenticatedUser,
+  validateRequest(changePasswordValidationSchema),
+  changePassword
+);
+router.get("/profile",authenticatedUser,getProfile);
 
 export default router;

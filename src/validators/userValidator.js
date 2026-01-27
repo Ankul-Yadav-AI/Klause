@@ -254,6 +254,47 @@ const loginValidationSchema = Joi.object({
     }),
 });
 
+const changePasswordValidationSchema = Joi.object({
+  oldPassword: Joi.string()
+    .required()
+    .messages({
+      "string.base": "PASSWORD_MUST_BE_STRING",
+      "string.empty": "PASSWORD_IS_REQUIRED",
+      "any.required": "PASSWORD_IS_REQUIRED",
+    }),
+
+  newPassword: Joi.string()
+    .min(8)
+    .max(15)
+    .pattern(
+      new RegExp(
+        "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,15}$"
+      )
+    )
+    .required()
+    .messages({
+      "string.base": "PASSWORD_MUST_BE_STRING",
+      "string.empty": "PASSWORD_IS_REQUIRED",
+      "string.min":
+        "PASSWORD_MUST_BE_AT_LEAST_8_CHARACTERS_LONG_AND_INCLUDE_AT_LEAST_ONE_LOWERCASE_LETTER_ONE_UPPERCASE_LETTER_ONE_NUMBER_AND_ONE_SPECIAL_CHARACTER",
+      "string.max":
+        "PASSWORD_CANNOT_EXCEED_15_CHARACTERS_LONG_AND_INCLUDE_AT_LEAST_ONE_LOWERCASE_LETTER_ONE_UPPERCASE_LETTER_ONE_NUMBER_AND_ONE_SPECIAL_CHARACTER",
+      "string.pattern.base":
+        "PASSWORD_MUST_INCLUDE_AT_LEAST_ONE_LOWERCASE_LETTER_ONE_UPPERCASE_LETTER_ONE_NUMBER_AND_ONE_SPECIAL_CHARACTER",
+      "any.required": "PASSWORD_IS_REQUIRED",
+    }),
+
+  confirmPassword: Joi.string()
+    .valid(Joi.ref("newPassword"))
+    .required()
+    .messages({
+      "string.base": "CONFIRM_PASSWORD_MUST_BE_STRING",
+      "string.empty": "CONFIRM_PASSWORD_IS_REQUIRED",
+      "any.only": "PASSWORD_AND_CONFIRM_PASSWORD_MUST_MATCH",
+      "any.required": "CONFIRM_PASSWORD_IS_REQUIRED",
+    }),
+});
+
 
 export {
   userValidationSchema,
@@ -262,4 +303,5 @@ export {
   nickNameSchema,
   userDetailsSchema,
   loginValidationSchema,
+  changePasswordValidationSchema
 };
