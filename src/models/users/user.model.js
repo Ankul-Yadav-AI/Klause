@@ -71,6 +71,7 @@ const userSchema = new mongoose.Schema(
     VATId: { type: String, trim: true },
     CountryCode: { type: String, trim: true },
     nickName: { type: String, trim: true },
+    profileImage: { type: String, trim: true },
 
     registrationStep: {
       type: Number,

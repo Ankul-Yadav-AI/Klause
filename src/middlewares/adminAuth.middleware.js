@@ -13,7 +13,7 @@ export const authenticatedUser = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "INVALID_ACCESS_TOKEN", req.lang);
     }
 
-    const decodedToken = jwt.verify(token, secret.ACCESS_TOKEN_SECRET);
+    const decodedToken = jwt.verify(token, secret.ACCESS_TOKEN_SECRET_ADMIN);
 
     req.user = {
       _id: decodedToken._id,

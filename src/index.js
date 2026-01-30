@@ -7,9 +7,14 @@ import cookieParser from "cookie-parser";
 import { languageMiddleware } from "./middlewares/language.middleware.js";
 import { loadConfig } from "./config/loadConfig.js";
 import redis from "./config/redis.js";
+import { errorHandler } from "./middlewares/errorHandler.middleware.js";
+import { t } from "./i18n/index.js";
 
+dotenv.config();
 const secret = await loadConfig();
+const PORT = secret.PORT || 5000;
 await redis.ping();
+await connectDB();
 const app = express();
 
 app.use(
@@ -20,22 +25,26 @@ app.use(
   })
 );
 
-app.use(express.json({ limit: "10kb" }));
-app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
 app.use("/api/v1/", languageMiddleware, routes);
+// health check
 app.get("/", (req, res) => {
   res.send("Testing .....");
 });
-dotenv.config();
-const PORT = secret.PORT || 5000;
-const MONGODB_URI =
-  secret.MONGODB_URI || "mongodb://localhost:27017/KlauseUserDB";
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    statusCode: 404,
+    data: null,
+    message: req.lang ? t(req.lang, "ROUTE_NOT_FOUND") : "Route not found",
+  });
+});
 
-await connectDB();
-
+app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`Auth Service is running on port ${PORT}`);
 });

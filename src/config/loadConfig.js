@@ -30,6 +30,8 @@ const loadConfig = async () => {
             ACCESS_TOKEN_EXPIRY: secrets.ACCESS_TOKEN_EXPIRY,
             REFRESH_TOKEN_SECRET: secrets.REFRESH_TOKEN_SECRET,
             REFRESH_TOKEN_EXPIRY: secrets.REFRESH_TOKEN_EXPIRY,
+            ACCESS_TOKEN_SECRET_ADMIN: process.env.ACCESS_TOKEN_SECRET_ADMIN,
+            REFRESH_TOKEN_SECRET_ADMIN: process.env.REFRESH_TOKEN_SECRET_ADMIN,
 
             // AWS configuration
             AWS_REGION: secrets.AWS_REGION,
@@ -47,7 +49,6 @@ const loadConfig = async () => {
             EMAIL_USER: secrets.EMAIL_USER,
             EMAIL_PASS: secrets.EMAIL_PASS,
 
-
             REDIS_HOST: secrets.REDIS_HOST || "localhost",
             REDIS_PORT: secrets.REDIS_PORT || "6379",
             REDIS_USERNAME: secrets.REDIS_USERNAME || "",
@@ -63,7 +64,6 @@ const loadConfig = async () => {
             // // Google OAuth configuration
             // GOOGLE_CLIENT_ID: secrets.GOOGLE_CLIENT_ID,
             // GOOGLE_CLIENT_SECRET: secrets.GOOGLE_CLIENT_SECRET,
-
 
             // // Cloudinary configuration
             // CLOUDINARY_NAME: secrets.CLOUDINARY_NAME,
@@ -95,18 +95,14 @@ const loadConfig = async () => {
     ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY || "15m",
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
     REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY || "7d",
+    ACCESS_TOKEN_SECRET_ADMIN: process.env.ACCESS_TOKEN_SECRET_ADMIN,
+    REFRESH_TOKEN_SECRET_ADMIN: process.env.REFRESH_TOKEN_SECRET_ADMIN,
 
     // AWS configuration
     AWS_REGION: process.env.AWS_REGION || "us-east-1",
     AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
     AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
     AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
-
-    // // Twilio configuration
-    // TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
-    // TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
-    // TWILIO_SERVICE_SID: process.env.TWILIO_SERVICE_SID,
-    // TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER,
 
     // Email configuration
     EMAIL_USER: process.env.EMAIL_USER,
@@ -128,7 +124,6 @@ const loadConfig = async () => {
     // // GOOGLE CLOUD OAUTH
     // GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     // GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-
 
     // // Cloudinary configuration
     // CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,

@@ -38,13 +38,13 @@ adminSchema.methods.isPasswordCorrect = async function (password) {
 adminSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     { _id: this._id, email: this.email },
-    secret.ACCESS_TOKEN_SECRET,
+    secret.ACCESS_TOKEN_SECRET_ADMIN,
     { expiresIn: secret.ACCESS_TOKEN_EXPIRY }
   );
 };
 
 adminSchema.methods.generateRefreshToken = function () {
-  return jwt.sign({ _id: this._id }, secret.REFRESH_TOKEN_SECRET, {
+  return jwt.sign({ _id: this._id }, secret.REFRESH_TOKEN_SECRET_ADMIN, {
     expiresIn: secret.REFRESH_TOKEN_EXPIRY,
   });
 };

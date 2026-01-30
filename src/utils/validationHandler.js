@@ -3,7 +3,7 @@ import { FIELD_LABELS } from "../constants/fieldLabels.js";
 
 const validateSchema = async (schema, data, lang = "en") => {
   try {
-    await schema.validateAsync(data, { abortEarly: true });
+    await schema.validateAsync(data, { abortEarly: true, allowUnknown: true });
     return null;
   } catch (error) {
     if (error.isJoi) {

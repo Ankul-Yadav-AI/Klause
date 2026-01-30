@@ -255,13 +255,11 @@ const loginValidationSchema = Joi.object({
 });
 
 const changePasswordValidationSchema = Joi.object({
-  oldPassword: Joi.string()
-    .required()
-    .messages({
-      "string.base": "PASSWORD_MUST_BE_STRING",
-      "string.empty": "PASSWORD_IS_REQUIRED",
-      "any.required": "PASSWORD_IS_REQUIRED",
-    }),
+  oldPassword: Joi.string().required().messages({
+    "string.base": "PASSWORD_MUST_BE_STRING",
+    "string.empty": "PASSWORD_IS_REQUIRED",
+    "any.required": "PASSWORD_IS_REQUIRED",
+  }),
 
   newPassword: Joi.string()
     .min(8)
@@ -295,6 +293,24 @@ const changePasswordValidationSchema = Joi.object({
     }),
 });
 
+const updateUserProfileValidationSchema = Joi.object({
+  firstName: Joi.string().trim().min(1).max(50).required().messages({
+    "string.base": "FIELD_MUST_BE_STRING",
+    "string.empty": "FIELD_REQUIRED",
+    "string.min": "FIELD_MIN_LENGTH",
+    "string.max": "FIELD_MAX_LENGTH",
+    "any.required": "FIELD_REQUIRED",
+  }),
+
+  lastName: Joi.string().trim().min(1).max(50).required().messages({
+    "string.base": "FIELD_MUST_BE_STRING",
+    "string.empty": "FIELD_REQUIRED",
+    "string.min": "FIELD_MIN_LENGTH",
+    "string.max": "FIELD_MAX_LENGTH",
+    "any.required": "FIELD_REQUIRED",
+  }),
+  
+});
 
 export {
   userValidationSchema,
@@ -303,5 +319,6 @@ export {
   nickNameSchema,
   userDetailsSchema,
   loginValidationSchema,
-  changePasswordValidationSchema
+  changePasswordValidationSchema,
+  updateUserProfileValidationSchema,
 };

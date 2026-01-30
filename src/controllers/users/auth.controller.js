@@ -9,6 +9,7 @@ import { generateOTP } from "../../utils/helperFunctions.js";
 import { emailTamplates } from "../../utils/emailTemplate.js";
 import { checkUsernameAvailability } from "../../services/userAvailability.service.js";
 import mongoose from "mongoose";
+import { deleteObject } from "../../utils/s3.utils.js";
 
 const secret = await loadConfig();
 
@@ -64,7 +65,7 @@ const signup = asyncHandler(async (req, res) => {
     );
   }
 
-  const otp = '123456';
+  const otp = "123456";
   // const otp = await generateOTP(6);
   // const emailTemplate = emailTamplates.signupOTP(otp);
 
@@ -182,7 +183,7 @@ const resendOTP = asyncHandler(async (req, res) => {
   }
 
   // const otp = await generateOTP(6);
-  const otp = '123456';
+  const otp = "123456";
   user.otp = otp;
   user.otpExpire = new Date(Date.now() + 10 * 60 * 1000);
   await user.save();
@@ -429,7 +430,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     );
   }
 
-  const otp = '123456';
+  const otp = "123456";
   // const otp = await generateOTP(6);
   // const name =
   //   [user?.firstName, user?.lastName].filter(Boolean).join(" ") || "User";
@@ -570,12 +571,12 @@ const getProfile = asyncHandler(async (req, res) => {
       billingAddressNo: 1,
       billingAddressPostCode: 1,
       billingAddressStreet: 1,
-      companyDescription:1,
+      companyDescription: 1,
       companyName: 1,
       country: 1,
       firstName: 1,
       gender: 1,
-      lastName:1,
+      lastName: 1,
       mainAddressCity: 1,
       mainAddressNo: 1,
       mainAddressPostCode: 1,
@@ -596,6 +597,35 @@ const getProfile = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "SUCCESS", req.lang, user[0]));
 });
 
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const { firstName, lastName } = req.body;
+  const userId = req.user?._id;
+  if (!userId) {
+    throw new ApiError(401, "INVALID_ACCESS_TOKEN", req.lang);
+  }
+  const user = await User.findById(userId).select(
+    "_id email firstName lastName profileImage"
+  );
+
+  if (req.file && user.profileImage) {
+    try {
+      await deleteObject(user.profileImage);
+    } catch (error) {
+      console.warn("Failed to delete old profile image:", error.message);
+    }
+  }
+
+  user.firstName = firstName;
+  user.lastName = lastName;
+  user.profileImage = req.file ? req.file.location : user.profileImage;
+  user.save();
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "USER_DETAILS_UPDATED_SUCCESSFULLY", req.lang, user)
+    );
+});
+
 export {
   signup,
   verifyOtp,
@@ -612,4 +642,5 @@ export {
   refreshAccessToken,
   changePassword,
   getProfile,
+  updateUserProfile,
 };

@@ -1,34 +1,56 @@
+// utils/asyncHandler.js
 import fs from "fs";
-import { t } from "../i18n/index.js";
 
 const asyncHandler = (fn) => async (req, res, next) => {
   try {
     await fn(req, res, next);
   } catch (error) {
-    // file cleanup (tumhara existing code)
-    if (req.files) {
-      const keyNames = Object.keys(req.files)[0];
-      if (keyNames) {
-        for (const file of req.files[keyNames]) {
-          if (file.path && fs.existsSync(file.path)) {
-            fs.unlinkSync(file.path);
-          }
-        }
-      }
-    }
-
-    if (error.code === 11000) {
-      error.statusCode = 409;
-      error.message = t(req.lang, "DUPLICATE_DATA");
-    }
-
-    res.status(error.statusCode || 500).json({
-      statusCode: error.statusCode || 500,
-      data: null,
-      message: error.message || t(req.lang, "SERVER_ERROR"),
-      success: false,
-    });
+    // Cleanup uploaded files in case of error
+    cleanupUploadedFiles(req);
+    
+    // Pass error to global error handler middleware
+    next(error);
   }
 };
 
-export { asyncHandler };
+// Helper function to cleanup uploaded files
+const cleanupUploadedFiles = (req) => {
+  try {
+    // Cleanup single file (req.file)
+    if (req.file?.path && fs.existsSync(req.file.path)) {
+      fs.unlinkSync(req.file.path);
+      console.log(`Cleaned up file: ${req.file.path}`);
+    }
+
+    // Cleanup multiple files (req.files)
+    if (req.files) {
+      // Case 1: upload.array() - req.files is an array
+      if (Array.isArray(req.files)) {
+        req.files.forEach((file) => {
+          if (file.path && fs.existsSync(file.path)) {
+            fs.unlinkSync(file.path);
+            console.log(`Cleaned up file: ${file.path}`);
+          }
+        });
+      } 
+      // Case 2: upload.fields() - req.files is an object
+      else if (typeof req.files === "object") {
+        Object.keys(req.files).forEach((fieldName) => {
+          const filesArray = req.files[fieldName];
+          if (Array.isArray(filesArray)) {
+            filesArray.forEach((file) => {
+              if (file.path && fs.existsSync(file.path)) {
+                fs.unlinkSync(file.path);
+                console.log(`Cleaned up file: ${file.path}`);
+              }
+            });
+          }
+        });
+      }
+    }
+  } catch (cleanupError) {
+    console.error("Error during file cleanup:", cleanupError.message);
+  }
+};
+
+export { asyncHandler, cleanupUploadedFiles };

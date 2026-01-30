@@ -2,13 +2,7 @@ import mongoose from "mongoose";
 
 const restaurantTypeSchema = new mongoose.Schema(
   {
-    name: {
-      en: { type: String, required: true },
-      de: { type: String, default: null },
-      es: { type: String, default: null },
-      fr: { type: String, default: null },
-      it: { type: String, default: null },
-    },
+    name: { type: String, required: true, unique: true },
 
     status: {
       type: String,
@@ -21,8 +15,6 @@ const restaurantTypeSchema = new mongoose.Schema(
     versionKey: false,
   }
 );
-
-restaurantTypeSchema.index({ "name.en": 1 }, { unique: true });
 
 const restaurantType = mongoose.model("restaurantType", restaurantTypeSchema);
 

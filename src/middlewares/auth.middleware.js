@@ -22,9 +22,10 @@ export const authenticatedUser = asyncHandler(async (req, res, next) => {
     };
     next();
   } catch (error) {
+    console.log(error);
     if (error.name === "TokenExpiredError") {
       throw new ApiError(401, "TOKEN_EXPIRED", req.lang);
     }
-    throw new ApiError(401, error?.message || "INVALID_TOKEN", req.lang);
+    throw new ApiError(401,"INVALID_TOKEN", req.lang);
   }
 });

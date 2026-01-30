@@ -15,6 +15,7 @@ import {
   refreshAccessToken,
   changePassword,
   getProfile,
+  updateUserProfile,
 } from "../../controllers/users/auth.controller.js";
 import { validateRequest } from "../../middlewares/validation.middleware.js";
 import {
@@ -25,8 +26,10 @@ import {
   userValidationSchema,
   loginValidationSchema,
   changePasswordValidationSchema,
+  updateUserProfileValidationSchema,
 } from "../../validators/userValidator.js";
 import { authenticatedUser } from "../../middlewares/auth.middleware.js";
+import { uploadProfileImage } from "../../utils/uploadRules.js";
 // import { checkVersion } from "../middlewares/checkVersion.js";
 
 const router = Router();
@@ -82,6 +85,13 @@ router.post(
   validateRequest(changePasswordValidationSchema),
   changePassword
 );
-router.get("/profile",authenticatedUser,getProfile);
+router.get("/profile", authenticatedUser, getProfile);
+router.put(
+  "/profile",
+  authenticatedUser,
+  uploadProfileImage.single("profile"),
+  validateRequest(updateUserProfileValidationSchema),
+  updateUserProfile
+);
 
 export default router;
